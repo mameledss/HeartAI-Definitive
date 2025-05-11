@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeartAI - Previsione Malattie Cardiache</title>
+    <link rel="stylesheet" href="../static/css/herta.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="heart-icon">❤️</div>
+            <h1>Sistema di Previsione Malattie Cardiache</h1>
+        </header>
+
+        <div class="dashboard">
+            <div class="sidebar">
+                <div class="input-section">
+                    <h2 class="parameters-title">Parametri del Paziente</h2>
+                    <form id="prediction-form">
+                        <div class="parameter-group">
+                            <div class="parameter-item">
+                                <label for="age">Età</label>
+                                <input type="number" id="age" name="age" min="20" max="100" value="55" required>
+                                <div class="parameter-desc">Età del paziente in anni</div>
+                            </div>
+
+                            <div class="parameter-item">
+                                <label>Sesso</label>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio" name="sex" value="0"> F
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="sex" value="1" checked> M
+                                    </label>
+                                </div>
+                                <div class="parameter-desc">Sesso del paziente</div>
+                            </div>
+
+                            <div class="parameter-item">
+                                <label for="cp">Tipo di dolore toracico</label>
+                                <select id="cp" name="cp" required>
+                                    <option value="0">0: Angina tipica</option>
+                                    <option value="1" selected>1: Angina atipica</option>
+                                    <option value="2">2: Dolore non anginoso</option>
+                                    <option value="3">3: Asintomatico</option>
+                                </select>
+                                <div class="parameter-desc">Tipo di dolore toracico</div>
+                            </div>
+
+                            <div class="parameter-item">
+                                <label for="trestbps">Pressione sanguigna a riposo</label>
+                                <input type="number" id="trestbps" name="trestbps" min="80" max="250" value="130" required>
+                                <div class="parameter-desc">Pressione sanguigna a riposo in mm Hg</div>
+                            </div>
+
+                            <div class="parameter-item">
+                                <label for="chol">Colesterolo sierico</label>
+                                <input type="number" id="chol" name="chol" min="100" max="600" value="220" required>
+                                <div class="parameter-desc">Colesterolo sierico in mg/dl</div>
+                            </div>
+
+                            <div class="parameter-item">
+                                <label>Glicemia a digiuno > 120 mg/dl</label>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio" name="fbs" value="0" checked> No
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="fbs" value="1"> Sì
+                                    </label>
+                                </div>
+                                <div class="parameter-desc">Glicemia a digiuno > 120 mg/dl</div>
+                            </div>
+
+                            <div class="parameter-item">
+                                <label for="restecg">Risultati elettrocardiografici a riposo</label>
+                                <select id="restecg" name="restecg" required>
+                                    <option value="0" selected>0: Normale</option>
+                                    <option value="1">1: Anomalia dell'onda ST-T</option>
+                                    <option value="2">2: Ipertrofia ventricolare sinistra</option>
+                                </select>
+                                <div class="parameter-desc">Risultati elettrocardiografici a riposo</div>
+                            </div>
+
+                            <div class="parameter-item">
+                                <label for="thalach">Frequenza cardiaca massima</label>
+                                <input type="number" id="thalach" name="thalach" min="60" max="220" value="150" required>
+                                <div class="parameter-desc">Frequenza cardiaca massima raggiunta</div>
+                            </div>
+
+                            <div class="parameter-item">
+                                <label>Angina indotta dall'esercizio</label>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio" name="exang" value="0" checked> No
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="exang" value="1"> Sì
+                                    </label>
+                                </div>
+                                <div class="parameter-desc">Angina indotta dall'esercizio</div>
+                            </div>
+
+                            <div class="parameter-item">
+                                <label for="oldpeak">Depressione ST indotta dall'esercizio</label>
+                                <input type="number" id="oldpeak" name="oldpeak" min="0" max="10" step="0.1" value="0.0" required>
+                                <div class="parameter-desc">Depressione del segmento ST indotta dall'esercizio rispetto al riposo</div>
+                            </div>
+
+                            <div class="parameter-item">
+                                <label for="slope">Pendenza segmento ST durante l'esercizio</label>
+                                <select id="slope" name="slope" required>
+                                    <option value="0">0: Ascendente</option>
+                                    <option value="1" selected>1: Piatto</option>
+                                    <option value="2">2: Discendente</option>
+                                </select>
+                                <div class="parameter-desc">Pendenza del segmento ST durante l'esercizio</div>
+                            </div>
+
+                            <div class="parameter-item">
+                                <label for="ca">Numero di vasi principali</label>
+                                <select id="ca" name="ca" required>
+                                    <option value="0" selected>0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
+                                <div class="parameter-desc">Numero di vasi principali colorati dalla fluoroscopia</div>
+                            </div>
+
+                            <div class="parameter-item">
+                                <label for="thal">Talassemia</label>
+                                <select id="thal" name="thal" required>
+                                    <option value="1">1: Difetto fisso</option>
+                                    <option value="2" selected>2: Normale</option>
+                                    <option value="3">3: Difetto reversibile</option>
+                                </select>
+                                <div class="parameter-desc">Talassemia</div>
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="submit-btn">Fai la Previsione</button>
+                            <button type="reset" class="reset-btn">Azzera Campi</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="content">
+                <div class="results-section">
+                    <h2>Risultati della Previsione</h2>
+                    <div id="prediction-results">
+                        <div class="results-placeholder">
+                            <div class="placeholder-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <p>Inserisci i parametri e fai click su "Fai la Previsione" per visualizzare i risultati.</p>
+                        </div>
+                        
+                        <div class="prediction-details" style="display: none;">
+                            <div class="prediction-result">
+                                <h3>Predizione</h3>
+                                <div id="prediction-value" class="prediction-value">-</div>
+                            </div>
+                            
+                            <div class="probability-container">
+                                <h3>Probabilità di malattia cardiaca</h3>
+                                <div class="probability-bar-container">
+                                    <div class="probability-bar" id="probability-bar"></div>
+                                    <div class="probability-value" id="probability-value">0%</div>
+                                </div>
+                            </div>
+                            
+                            <div class="risk-level">
+                                <h3>Livello di rischio</h3>
+                                <div id="risk-value" class="risk-value">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="charts-section">
+                    <h2>Grafici di Analisi</h2>
+                    <div class="charts-container">
+                        <div class="chart-tab active" data-chart="target_distribution">Distribuzione Target</div>
+                        <div class="chart-tab" data-chart="correlation_matrix">Matrice di Correlazione</div>
+                        <div class="chart-tab" data-chart="feature_importance">Importanza delle Caratteristiche</div>
+                    </div>
+                    <div class="chart-display">
+                        <img id="current-chart" src="" alt="Grafico di analisi" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>HeartAI - Versione 1.0</p>
+        </footer>
+    </div>
+
+    <!-- Assicurarsi che il percorso del file JS sia corretto -->
+    <script src="../static/js/herta.js"></script>
+    
+    <!-- Script di debug temporaneo -->
+    <script>
+        console.log('Pagina caricata completamente');
+        // Verifica il corretto caricamento del form
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM caricato, verifico elementi:');
+            console.log('Form trovato:', !!document.getElementById('prediction-form'));
+            console.log('Pulsante submit trovato:', !!document.querySelector('.submit-btn'));
+        });
+    </script>
+</body>
+</html>
