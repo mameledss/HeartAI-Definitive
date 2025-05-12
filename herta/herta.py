@@ -1,5 +1,8 @@
 import pandas as pd  
 import numpy as np 
+import matplotlib
+# Set the backend to 'Agg' which doesn't require a GUI
+matplotlib.use('Agg')  # This must be done before importing pyplot
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
@@ -15,6 +18,9 @@ import os
 import base64
 from io import BytesIO
 import json
+import webbrowser
+import time
+import threading
 from flask import Flask, render_template, request, jsonify
 
 # Disattiviamo i messaggi di avviso
@@ -27,6 +33,7 @@ app = Flask(__name__)
 optimized_model = None
 scaler = None
 X = None
+df = None
 
 # Configurazione dei percorsi
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -35,12 +42,17 @@ if not os.path.exists(grafici_dir):
     os.makedirs(grafici_dir)
     print(f"Directory creata: {grafici_dir}")
 
+def open_browser():
+    time.sleep(1.5)  # Aspetta che il server sia completamente avviato
+    webbrowser.open('http://127.0.0.1:5000/')
+
 def encode_image(fig):
     """Converte un figura matplotlib in una stringa base64 per HTML"""
     img = BytesIO()
     fig.savefig(img, format='png', bbox_inches='tight')
     img.seek(0)
     encoded = base64.b64encode(img.getvalue()).decode('utf-8')
+    plt.close(fig)  # Chiude la figura per liberare memoria
     return f"data:image/png;base64,{encoded}"
 
 @app.route('/')
@@ -51,24 +63,23 @@ def home():
 @app.route('/api/charts')
 def get_charts():
     """Restituisce i grafici generati durante l'analisi"""
+    global df, X, optimized_model
     charts_data = {}
     
     # Distribuzione target
-    plt.figure(figsize=(8, 6))
+    fig1 = plt.figure(figsize=(8, 6))
     sns.countplot(x='target', data=df)
     plt.title('Distribuzione Variabile Target')
     plt.xlabel('Presenza di Malattia Cardiaca (0=No, 1=Sì)')
     plt.ylabel('Conteggio')
-    charts_data['target_distribution'] = encode_image(plt.gcf())
-    plt.close()
+    charts_data['target_distribution'] = encode_image(fig1)
     
     # Matrice di correlazione
-    plt.figure(figsize=(12, 10))
+    fig2 = plt.figure(figsize=(12, 10))
     correlation_matrix = df.corr()
     sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt='.2f')
     plt.title('Matrice di Correlazione')
-    charts_data['correlation_matrix'] = encode_image(plt.gcf())
-    plt.close()
+    charts_data['correlation_matrix'] = encode_image(fig2)
     
     # Se il modello ha feature importances, aggiungi anche quel grafico
     if hasattr(optimized_model, 'feature_importances_'):
@@ -76,32 +87,30 @@ def get_charts():
         feature_names = X.columns
         indices = np.argsort(importances)[::-1]
         
-        plt.figure(figsize=(10, 6))
+        fig3 = plt.figure(figsize=(10, 6))
         plt.bar(range(len(importances)), importances[indices])
         plt.xticks(range(len(importances)), [feature_names[i] for i in indices], rotation=90)
         plt.title('Importanza delle Caratteristiche')
         plt.tight_layout()
-        charts_data['feature_importance'] = encode_image(plt.gcf())
-        plt.close()
+        charts_data['feature_importance'] = encode_image(fig3)
     elif hasattr(optimized_model, 'coef_'):
         coefficients = optimized_model.coef_[0]
         feature_names = X.columns
         indices = np.argsort(np.abs(coefficients))[::-1]
         
-        plt.figure(figsize=(10, 6))
+        fig3 = plt.figure(figsize=(10, 6))
         plt.bar(range(len(coefficients)), coefficients[indices])
         plt.xticks(range(len(coefficients)), [feature_names[i] for i in indices], rotation=90)
         plt.title('Coefficienti del Modello')
         plt.tight_layout()
-        charts_data['model_coefficients'] = encode_image(plt.gcf())
-        plt.close()
+        charts_data['model_coefficients'] = encode_image(fig3)
     
     return jsonify(charts_data)
 
 @app.route('/api/predict', methods=['POST'])
 def predict():
     """Predice la probabilità di malattia cardiaca dato l'input dell'utente"""
-    global optimized_model, scaler
+    global optimized_model, scaler, X
     
     # Otteniamo i dati dal form
     data = request.json
@@ -318,7 +327,7 @@ def get_field_metadata():
         'sex': 1,
         'cp': 1,
         'trestbps': 130,
-        'chol': 220,
+        'chol': 150,
         'fbs': 0,
         'restecg': 0,
         'thalach': 150,
@@ -339,5 +348,8 @@ if __name__ == "__main__":
     # Addestriamo il modello prima di avviare l'applicazione
     train_model()
     
+    browser_thread = threading.Thread(target=open_browser)
+    browser_thread.start()
+
     # Avviamo l'applicazione Flask
-    app.run(debug=True)
+    app.run(debug=False)  # Set debug to False to avoid reloading which can cause issues
