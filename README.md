@@ -106,7 +106,7 @@ Questi grafici vengono salvati come immagini e caricati dinamicamente nell'inter
 Per installare le librerie 
 
 ```bash
-  pip install requirements.txt
+  pip install -r requirements.txt
 ```
 ## Readme
 Readme realizzato con (https://readme.so)
