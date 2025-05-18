@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,15 @@
     <title>HeartAI - Previsione Malattie Cardiache</title>
     <link rel="stylesheet" href="../static/css/herta.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="../static/images/icon.png" type="image/png">
 </head>
+
 <body>
     <div class="container">
         <header>
-            <div class="heart-icon">❤️</div>
-            <h1>HeartAI</h1>
+            <div class="logo-container">
+                <img src="../static/images/icona.png" alt="HeartAI Logo" class="logo">
+            </div>
         </header>
 
         <div class="dashboard">
@@ -53,7 +57,8 @@
 
                             <div class="parameter-item">
                                 <label for="trestbps">Pressione sanguigna a riposo</label>
-                                <input type="number" id="trestbps" name="trestbps" min="80" max="250" value="130" required>
+                                <input type="number" id="trestbps" name="trestbps" min="80" max="250" value="130"
+                                    required>
                                 <div class="parameter-desc">Pressione sanguigna a riposo [mm Hg]</div>
                             </div>
 
@@ -88,7 +93,8 @@
 
                             <div class="parameter-item">
                                 <label for="thalach">Frequenza cardiaca massima</label>
-                                <input type="number" id="thalach" name="thalach" min="60" max="220" value="150" required>
+                                <input type="number" id="thalach" name="thalach" min="60" max="220" value="150"
+                                    required>
                                 <div class="parameter-desc">Frequenza cardiaca massima raggiunta</div>
                             </div>
 
@@ -107,8 +113,10 @@
 
                             <div class="parameter-item">
                                 <label for="oldpeak">Depressione ST indotta dall'esercizio</label>
-                                <input type="number" id="oldpeak" name="oldpeak" min="0" max="10" step="0.1" value="0.0" required>
-                                <div class="parameter-desc">Depressione del segmento ST indotta dall'esercizio rispetto al riposo</div>
+                                <input type="number" id="oldpeak" name="oldpeak" min="0" max="10" step="0.1" value="0.0"
+                                    required>
+                                <div class="parameter-desc">Depressione del segmento ST indotta dall'esercizio rispetto
+                                    al riposo</div>
                             </div>
 
                             <div class="parameter-item">
@@ -151,7 +159,7 @@
                     </form>
                 </div>
             </div>
-            
+
             <div class="content">
                 <div class="results-section">
                     <h2>Risultati della Previsione</h2>
@@ -160,15 +168,16 @@
                             <div class="placeholder-icon">
                                 <i class="fas fa-chart-line"></i>
                             </div>
-                            <p>Inserisci i parametri e fai click su "Fai la Previsione" per visualizzare i risultati.</p>
+                            <p>Inserisci i parametri e fai click su "Fai la Previsione" per visualizzare i risultati.
+                            </p>
                         </div>
-                        
+
                         <div class="prediction-details" style="display: none;">
                             <div class="prediction-result">
                                 <h3>Predizione</h3>
                                 <div id="prediction-value" class="prediction-value">-</div>
                             </div>
-                            
+
                             <div class="probability-container">
                                 <h3>Probabilità di malattia cardiaca</h3>
                                 <div class="probability-bar-container">
@@ -176,7 +185,7 @@
                                     <div class="probability-value" id="probability-value">0%</div>
                                 </div>
                             </div>
-                            
+
                             <div class="risk-level">
                                 <h3>Livello di rischio</h3>
                                 <div id="risk-value" class="risk-value">-</div>
@@ -184,7 +193,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="charts-section">
                     <h2>Grafici di Analisi</h2>
                     <div class="charts-container">
@@ -198,7 +207,7 @@
                 </div>
             </div>
         </div>
-        
+
         <footer>
             <p>HeartAI - Versione 1.0</p>
         </footer>
@@ -206,16 +215,17 @@
 
     <!-- Assicurarsi che il percorso del file JS sia corretto -->
     <script src="../static/js/herta.js"></script>
-    
+
     <!-- Script di debug temporaneo -->
     <script>
         console.log('Pagina caricata completamente');
         // Verifica il corretto caricamento del form
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             console.log('DOM caricato, verifico elementi:');
             console.log('Form trovato:', !!document.getElementById('prediction-form'));
             console.log('Pulsante submit trovato:', !!document.querySelector('.submit-btn'));
         });
     </script>
 </body>
+
 </html>
