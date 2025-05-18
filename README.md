@@ -101,12 +101,17 @@ Questi grafici vengono salvati come immagini e caricati dinamicamente nell'inter
 /api/predict
 ```
 
-## 📚 Installatione librerie
+## 📚 Installatione librerie e utilizzo appliczione
 
 Per installare le librerie 
 
 ```bash
   pip install -r requirements.txt
+```
+In seguito, avviare l'applicazione herta.py
+
+```bash
+  python herta.py
 ```
 ## Readme
 Readme realizzato con (https://readme.so)
