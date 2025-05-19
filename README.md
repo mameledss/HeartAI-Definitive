@@ -31,6 +31,7 @@ In base alla probabilità, viene assegnato un livello di rischio:
 - < 40% → **BASSO**
 - 40–70% → **MODERATO**
 - 70% → **ALTO**
+
 Questi risultati vengono poi restituiti al frontend come risposta JSON.
 
 Una volta ricevuta la risposta dal backend, l’interfaccia aggiorna:
