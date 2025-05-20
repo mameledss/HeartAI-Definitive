@@ -102,7 +102,7 @@ Questi grafici vengono salvati come immagini e caricati dinamicamente nell'inter
 /api/predict
 ```
 
-## 📚 Installatione librerie e utilizzo appliczione
+## 📚 Installazione librerie e utilizzo applicazione
 
 Per installare le librerie 
 
