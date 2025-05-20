@@ -31,12 +31,6 @@ scaler = None #lo scaler dei dati
 X = None #le features del dataset
 df = None #e il dataframe completo
 
-cartellaFile = os.path.dirname(os.path.abspath(__file__)) #ottiene la directory del file corrente
-cartellaGrafici = os.path.join(cartellaFile, 'static', 'grafici') #crea percorso per directory grafici
-if not os.path.exists(cartellaGrafici): #se la directory non esiste
-    os.makedirs(cartellaGrafici) #la crea
-    print(f"Directory creata: {cartellaGrafici}")
-
 def apriBrowser():
     time.sleep(1.5) #aspetta che il server sia completamente avviato
     webbrowser.open('http://127.0.0.1:5000/') #apre il browser all'indirizzo locale
