@@ -118,7 +118,7 @@ In seguito, avviare l'applicazione herta.py
 Readme realizzato con (https://readme.so)
 
 ## UML
-https://files.catbox.moe/rwbybr.html
+![App screenshoot](https://files.catbox.moe/rakoxd.png)
 
 ## Authors
 - [@davithea](https://www.github.com/davithea)
